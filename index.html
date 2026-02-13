@@ -314,29 +314,6 @@
             font-weight: bold;
         }
 
-        /* === MUSIC PLAYER === */
-        .music-player {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 5px;
-            border-radius: 50px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-
-        .music-toggle {
-            background: linear-gradient(135deg, #ff1493, #ff69b4);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
             h1 {
@@ -390,16 +367,6 @@
 
             .polaroid img {
                 height: 250px;
-            }
-
-            .music-player {
-                bottom: 10px;
-                right: 10px;
-            }
-
-            .music-toggle {
-                padding: 8px 15px;
-                font-size: 0.9rem;
             }
 
             .about-section p {
@@ -470,18 +437,16 @@
                 opacity: 0;
             }
         }
-    
 
         /* === TYPING TEXT === */
-    .typing-text {
-        font-size: 1.8rem;
-        color: #c71585;
-        margin-bottom: 20px;
-        min-height: 40px;
-        letter-spacing: 1px;
-        text-shadow: 1px 1px 5px rgba(255,255,255,0.7);
-    }
-
+        .typing-text {
+            font-size: 1.8rem;
+            color: #c71585;
+            margin-bottom: 20px;
+            min-height: 40px;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 5px rgba(255,255,255,0.7);
+        }
     </style>
 </head>
 <body>
@@ -489,19 +454,18 @@
     <div id="hearts-container"></div>
 
     <!-- Main Section -->
-     <div class="main-section">
+    <div class="main-section">
         <div class="container">
             <div>
                 <p id="typingText" class="typing-text"></p>
             </div>
-         </div>
+        </div>
     </div>
-
 
     <!-- Countdown Section -->
     <div class="container">
         <div class="countdown-section">
-            <h2>I’ve been Counting down to the day you were born!💞</h2>
+            <h2>I've been Counting down to the day you were born!💞</h2>
             <div class="countdown" id="countdown">
                 <div class="countdown-item">
                     <span class="number" id="days">0</span>
@@ -530,27 +494,22 @@
             <div class="photo-gallery">
                 <div class="polaroid">
                     <img src="images/5.jpg" alt="Nidra">
-                    
                 </div>
                 <div class="polaroid">
                     <img src="images/1.jpg" alt="Nidra">
-                    
                 </div>
                 <div class="polaroid">
                     <img src="images/3.jpg" alt="Nidra">
-                    
                 </div>
                 <div class="polaroid">
                     <img src="images/4.jpg" alt="Nidra">
-                    
                 </div>
             </div>
         </div>
     </div>
-        <div class="main-section">
-        <div class="container">
-            
 
+    <div class="main-section">
+        <div class="container">
             <h1>Will you be my Valentine? 💖</h1>
             
             <div class="button-container">
@@ -563,41 +522,15 @@
             </div>
         </div>
     </div>
-    <!-- About Creator Section 
-    <div class="container">
-        <div class="about-section">
-            <h2>Made with ❤️ just for Nidra</h2>
-        </div>
-    </div> 
-    -->
+
     <!-- Footer -->
     <footer>
         Made with ❤️ just for Nidra!!
     </footer>
 
-    <!-- Music Player -->
-    <div class="music-player">
-        <button class="music-toggle" onclick="toggleMusic()" id="musicBtn">🎵 Play Music</button>
-    </div>
-
     <!-- Hidden Audio Element -->
-    <!-- 
-        IMPORTANT: Replace the src below with the actual "I Wanna Be Yours" by Arctic Monkeys MP3 file.
-        
-        To get the song:
-        1. Download "I Wanna Be Yours" by Arctic Monkeys as an MP3
-        2. Upload it to your web hosting or use a service like:
-           - Google Drive (get shareable link)
-           - Dropbox
-           - Your own web server
-        3. Replace the src URL below with your MP3 file URL
-        
-        The #t=46 at the end tells it to start at 46 seconds.
-        Alternative: Remove #t=46 and the JavaScript will handle starting at 46 seconds.
-    -->
     <audio id="bgMusic" loop>
         <source src="I Wanna Be Yours.mp3" type="audio/mpeg">
-        <!-- Fallback: Using a romantic piano track -->
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
@@ -721,16 +654,6 @@
             
             // Create heart explosion
             createHeartExplosion();
-            
-            // Play music from 46 seconds
-            const music = document.getElementById('bgMusic');
-            music.currentTime = 46;
-            music.play().catch(err => {
-                console.log('Autoplay prevented:', err);
-            });
-            
-            document.getElementById('musicBtn').textContent = '🎵 Pause Music';
-            musicPlaying = true;
         }
 
         // === HEART EXPLOSION ===
@@ -786,33 +709,51 @@
             }, 1000);
         }
 
-        // === MUSIC TOGGLE ===
-        let musicPlaying = false;
-        function toggleMusic() {
+        // === AUTO-PLAY MUSIC ===
+        function autoPlayMusic() {
             const music = document.getElementById('bgMusic');
-            const btn = document.getElementById('musicBtn');
+            music.currentTime = 46; // Start at 46 seconds
             
-            if (musicPlaying) {
-                music.pause();
-                btn.textContent = '🎵 Play Music';
-                musicPlaying = false;
-            } else {
-                // Set start time to 46 seconds if at beginning
-                if (music.currentTime < 1) {
+            // Try to play immediately
+            music.play().catch(err => {
+                console.log('Autoplay blocked, waiting for user interaction...');
+                
+                // If autoplay is blocked, play on first user interaction
+                const playOnInteraction = () => {
                     music.currentTime = 46;
-                }
-                music.play().catch(err => {
-                    alert('Please interact with the page first to play music!');
-                });
-                btn.textContent = '🎵 Pause Music';
-                musicPlaying = true;
-            }
+                    music.play();
+                    document.removeEventListener('click', playOnInteraction);
+                    document.removeEventListener('touchstart', playOnInteraction);
+                    document.removeEventListener('keydown', playOnInteraction);
+                };
+                
+                document.addEventListener('click', playOnInteraction);
+                document.addEventListener('touchstart', playOnInteraction);
+                document.addEventListener('keydown', playOnInteraction);
+            });
         }
-        
+
         // Initialize audio to start at 46 seconds
         document.getElementById('bgMusic').addEventListener('loadedmetadata', function() {
             this.currentTime = 46;
         });
+
+        // === TYPING EFFECT ===
+        function startTypingEffect() {
+            const text = "Nidra… there's something I've been meaning to tell you… 💌";
+            const typingElement = document.getElementById("typingText");
+            let index = 0;
+
+            function typeLetter() {
+                if (index < text.length) {
+                    typingElement.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(typeLetter, 60);
+                }
+            }
+
+            typeLetter();
+        }
 
         // === INITIALIZE ===
         window.onload = function() {
@@ -820,12 +761,10 @@
             updateCountdown();
             setupNoButton();
             startTypingEffect();
+            autoPlayMusic(); // Auto-start music
             
             // Position "No" button initially to the right of Yes button with spacing
             const noBtn = document.getElementById('noBtn');
-            const container = noBtn.parentElement;
-            const yesBtn = document.querySelector('.yes-btn');
-            
             noBtn.style.position = 'absolute';
             
             // Calculate position based on viewport width
@@ -840,31 +779,6 @@
             }
             noBtn.style.transform = 'translate(-50%, -50%)';
         };
-
-        // === ATTEMPT AUTOPLAY (Will be blocked by most browsers) ===
-        document.addEventListener('click', function initAudio() {
-            const music = document.getElementById('bgMusic');
-            music.play().catch(() => {});
-            document.removeEventListener('click', initAudio);
-        }, { once: true });
-
-        // === TYPING EFFECT ===
-function startTypingEffect() {
-    const text = "Nidra… there’s something I’ve been meaning to tell you… 💌";
-    const typingElement = document.getElementById("typingText");
-    let index = 0;
-
-    function typeLetter() {
-        if (index < text.length) {
-            typingElement.textContent += text.charAt(index);
-            index++;
-            setTimeout(typeLetter, 60);
-        }
-    }
-
-    typeLetter();
-}
-
     </script>
 </body>
 </html>

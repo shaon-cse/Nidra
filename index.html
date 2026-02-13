@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nidra, Be My Valentine? 💖</title>
+    <style>
+        /* === GLOBAL RESET & FONT === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* === BACKGROUND WITH GIF OVERLAY === */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(135deg, rgba(255, 182, 193, 0.7), rgba(255, 192, 203, 0.8), rgba(255, 218, 224, 0.7)),
+                url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHc4YjBva2R2eTU1NW9iNGJlY2cxMzFtOGNoYXUyMWVyeGJoNmo3eiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Y80iPTzJSLa9YOgBI9/giphy.gif');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        /* === FLOATING HEARTS ANIMATION === */
+        .heart {
+            position: fixed;
+            font-size: 30px;
+            animation: float-up 8s infinite ease-in;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* === CONTAINER === */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* === MAIN SECTION === */
+        .main-section {
+            text-align: center;
+            padding: 60px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ff1493;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.8);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* === BUTTON CONTAINER === */
+        .button-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            min-height: 250px;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button {
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            min-width: 180px;
+            width: 180px;
+            height: 70px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: white;
+            position: relative;
+            z-index: 10;
+        }
+
+        .yes-btn:hover,
+        .yes-btn:active {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(255, 20, 147, 0.4);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+            color: #ff1493;
+            position: absolute;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+        }
+
+        /* === SUCCESS MESSAGE === */
+        .success-message {
+            display: none;
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255, 20, 147, 0.3);
+        }
+
+        .success-message h2 {
+            font-size: 2.5rem;
+            color: #ff1493;
+            margin-bottom: 20px;
+            animation: celebration 0.5s ease;
+        }
+
+        @keyframes celebration {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+            }
+            25% {
+                transform: rotate(-10deg) scale(1.1);
+            }
+            75% {
+                transform: rotate(10deg) scale(1.1);
+            }
+        }
+
+        /* === COUNTDOWN SECTION === */
+        .countdown-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            margin: 40px auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .countdown-section h2 {
+            font-size: 2.5rem;
+            color: #ff1493;
+            margin-bottom: 30px;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            padding: 25px 35px;
+            border-radius: 20px;
+            color: white;
+            min-width: 120px;
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.3);
+        }
+
+        .countdown-item .number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .countdown-item .label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        /* === PHOTO GALLERY === */
+        .photo-section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .photo-section h2 {
+            font-size: 2.5rem;
+            color: #ff1493;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: rotate(-2deg);
+            transition: all 0.3s ease;
+        }
+
+        .polaroid:nth-child(even) {
+            transform: rotate(2deg);
+        }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 20, 147, 0.3);
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+        }
+
+        .polaroid p {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            color: #ff1493;
+            font-style: italic;
+        }
+
+        /* === ABOUT SECTION === */
+        .about-section {
+            padding: 60px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            margin: 40px auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-section h2 {
+            font-size: 2.5rem;
+            color: #ff1493;
+            margin-bottom: 30px;
+        }
+
+        .about-section p {
+            font-size: 1.3rem;
+            color: #666;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* === FOOTER === */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #ff1493;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* === MUSIC PLAYER === */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 5px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .music-toggle {
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+                padding: 0 10px;
+            }
+
+            button {
+                padding: 18px 40px;
+                font-size: 1.3rem;
+                min-width: 160px;
+                width: 160px;
+                height: 65px;
+            }
+
+            .button-container {
+                min-height: 300px;
+                gap: 20px;
+            }
+
+            .countdown-item {
+                min-width: 70px;
+                padding: 15px 20px;
+            }
+
+            .countdown-item .number {
+                font-size: 2rem;
+            }
+
+            .countdown-item .label {
+                font-size: 0.8rem;
+            }
+
+            .countdown {
+                gap: 10px;
+            }
+
+            .photo-section h2,
+            .countdown-section h2,
+            .about-section h2 {
+                font-size: 2rem;
+            }
+
+            .success-message h2 {
+                font-size: 1.8rem;
+            }
+
+            .polaroid {
+                margin: 0 10px;
+            }
+
+            .polaroid img {
+                height: 250px;
+            }
+
+            .music-player {
+                bottom: 10px;
+                right: 10px;
+            }
+
+            .music-toggle {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .about-section p {
+                font-size: 1.1rem;
+                padding: 0 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            button {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+                min-width: 140px;
+                width: 140px;
+                height: 60px;
+            }
+
+            .button-container {
+                min-height: 280px;
+            }
+
+            .countdown-item {
+                min-width: 60px;
+                padding: 12px 15px;
+            }
+
+            .countdown-item .number {
+                font-size: 1.5rem;
+            }
+
+            .countdown-item .label {
+                font-size: 0.7rem;
+            }
+
+            .photo-section h2,
+            .countdown-section h2,
+            .about-section h2 {
+                font-size: 1.6rem;
+            }
+
+            .polaroid img {
+                height: 200px;
+            }
+
+            .polaroid p {
+                font-size: 1rem;
+            }
+        }
+
+        /* === HEART EXPLOSION === */
+        .heart-explosion {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+    
+
+        /* === TYPING TEXT === */
+    .typing-text {
+        font-size: 1.8rem;
+        color: #c71585;
+        margin-bottom: 20px;
+        min-height: 40px;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 5px rgba(255,255,255,0.7);
+    }
+
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts -->
+    <div id="hearts-container"></div>
+
+    <!-- Main Section -->
+     <div class="main-section">
+        <div class="container">
+            <div>
+                <p id="typingText" class="typing-text"></p>
+            </div>
+         </div>
+    </div>
+
+
+    <!-- Countdown Section -->
+    <div class="container">
+        <div class="countdown-section">
+            <h2>I’ve been Counting down to the day you were born!💞</h2>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="number" id="days">0</span>
+                    <span class="label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="number" id="hours">0</span>
+                    <span class="label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="number" id="minutes">0</span>
+                    <span class="label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="number" id="seconds">0</span>
+                    <span class="label">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Gallery Section -->
+    <div class="container">
+        <div class="photo-section">
+            <h2>Collecting memories of you!🌸</h2>
+            <div class="photo-gallery">
+                <div class="polaroid">
+                    <img src="\NIDRA\images\5.jpg" alt="Nidra">
+                    
+                </div>
+                <div class="polaroid">
+                    <img src="\NIDRA\images\1.jpg" alt="Nidra">
+                    
+                </div>
+                <div class="polaroid">
+                    <img src="\NIDRA\images\3.jpg" alt="Nidra">
+                    
+                </div>
+                <div class="polaroid">
+                    <img src="\NIDRA\images\4.jpg" alt="Nidra">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="main-section">
+        <div class="container">
+            
+
+            <h1>Will you be my Valentine? 💖</h1>
+            
+            <div class="button-container">
+                <button class="yes-btn" onclick="handleYes()">Yes 💖</button>
+                <button class="no-btn" id="noBtn">No 😕</button>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <h2>YAYYY!!!!😍</h2>
+            </div>
+        </div>
+    </div>
+    <!-- About Creator Section 
+    <div class="container">
+        <div class="about-section">
+            <h2>Made with ❤️ just for Nidra</h2>
+        </div>
+    </div> 
+    -->
+    <!-- Footer -->
+    <footer>
+        Made with ❤️ just for Nidra!!
+    </footer>
+
+    <!-- Music Player -->
+    <div class="music-player">
+        <button class="music-toggle" onclick="toggleMusic()" id="musicBtn">🎵 Play Music</button>
+    </div>
+
+    <!-- Hidden Audio Element -->
+    <!-- 
+        IMPORTANT: Replace the src below with the actual "I Wanna Be Yours" by Arctic Monkeys MP3 file.
+        
+        To get the song:
+        1. Download "I Wanna Be Yours" by Arctic Monkeys as an MP3
+        2. Upload it to your web hosting or use a service like:
+           - Google Drive (get shareable link)
+           - Dropbox
+           - Your own web server
+        3. Replace the src URL below with your MP3 file URL
+        
+        The #t=46 at the end tells it to start at 46 seconds.
+        Alternative: Remove #t=46 and the JavaScript will handle starting at 46 seconds.
+    -->
+    <audio id="bgMusic" loop>
+        <source src="I Wanna Be Yours.mp3" type="audio/mpeg">
+        <!-- Fallback: Using a romantic piano track -->
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // === FLOATING HEARTS ===
+        function createFloatingHearts() {
+            const container = document.getElementById('hearts-container');
+            const hearts = ['❤️', '💖', '💕', '💗', '💓', '💝'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 10000);
+            }, 500);
+        }
+
+        // === MOVE "NO" BUTTON ===
+        let lastPosition = { x: 0, y: 0 };
+        
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const container = btn.parentElement;
+            const yesBtn = document.querySelector('.yes-btn');
+            
+            // Get container dimensions
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = btn.getBoundingClientRect();
+            const yesBtnRect = yesBtn.getBoundingClientRect();
+            
+            const maxX = containerRect.width - btnRect.width - 20;
+            const maxY = containerRect.height - btnRect.height - 20;
+            
+            let randomX, randomY;
+            let attempts = 0;
+            const maxAttempts = 100;
+            const minDistance = 150; // Minimum distance from previous position
+            
+            // Keep generating random positions until we find a good one
+            do {
+                randomX = Math.random() * Math.max(0, maxX);
+                randomY = Math.random() * Math.max(0, maxY);
+                attempts++;
+                
+                // Calculate the absolute position where the No button would be
+                const noLeft = randomX;
+                const noTop = randomY;
+                const noRight = noLeft + btnRect.width;
+                const noBottom = noTop + btnRect.height;
+                
+                // Calculate Yes button position relative to container
+                const yesLeft = yesBtnRect.left - containerRect.left;
+                const yesTop = yesBtnRect.top - containerRect.top;
+                const yesRight = yesLeft + yesBtnRect.width;
+                const yesBottom = yesTop + yesBtnRect.height;
+                
+                // Add 40px buffer zone around Yes button
+                const buffer = 40;
+                const isOverlappingYes = !(noRight < (yesLeft - buffer) || 
+                                           noLeft > (yesRight + buffer) || 
+                                           noBottom < (yesTop - buffer) || 
+                                           noTop > (yesBottom + buffer));
+                
+                // Check distance from last position
+                const distance = Math.sqrt(
+                    Math.pow(randomX - lastPosition.x, 2) + 
+                    Math.pow(randomY - lastPosition.y, 2)
+                );
+                
+                const isFarEnough = distance > minDistance || attempts > 30;
+                
+                if (!isOverlappingYes && isFarEnough) {
+                    break;
+                }
+            } while (attempts < maxAttempts);
+            
+            // Update last position
+            lastPosition = { x: randomX, y: randomY };
+            
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+        }
+
+        // Add touch support for mobile
+        function setupNoButton() {
+            const noBtn = document.getElementById('noBtn');
+            
+            // Mouse hover for desktop - trigger earlier
+            noBtn.addEventListener('mouseenter', moveButton);
+            
+            // Touch events for mobile
+            noBtn.addEventListener('touchstart', function(e) {
+                e.preventDefault(); // Prevent default touch behavior
+                moveButton();
+            });
+            
+            // Click event as backup
+            noBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                moveButton();
+            });
+        }
+
+        // === HANDLE YES BUTTON ===
+        function handleYes() {
+            const successMessage = document.getElementById('successMessage');
+            const buttonContainer = document.querySelector('.button-container');
+            
+            // Hide buttons
+            buttonContainer.style.display = 'none';
+            
+            // Show success message
+            successMessage.style.display = 'block';
+            
+            // Create heart explosion
+            createHeartExplosion();
+            
+            // Play music from 46 seconds
+            const music = document.getElementById('bgMusic');
+            music.currentTime = 46;
+            music.play().catch(err => {
+                console.log('Autoplay prevented:', err);
+            });
+            
+            document.getElementById('musicBtn').textContent = '🎵 Pause Music';
+            musicPlaying = true;
+        }
+
+        // === HEART EXPLOSION ===
+        function createHeartExplosion() {
+            const hearts = ['❤️', '💖', '💕', '💗', '💓', '💝'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-explosion';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    heart.style.left = '50%';
+                    heart.style.top = '50%';
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = Math.random() * 300 + 100;
+                    const tx = Math.cos(angle) * distance;
+                    const ty = Math.sin(angle) * distance;
+                    
+                    heart.style.setProperty('--tx', tx + 'px');
+                    heart.style.setProperty('--ty', ty + 'px');
+                    heart.style.animation = 'explode 1.5s ease-out forwards';
+                    
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 1500);
+                }, i * 30);
+            }
+        }
+
+        // === COUNTDOWN TIMER ===
+        function updateCountdown() {
+            const targetDate = new Date('2026-06-25T00:00:00+06:00').getTime();
+            
+            setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+                
+                if (distance < 0) {
+                    document.getElementById('countdown').innerHTML = '<h2>It\'s Date Time! 💕</h2>';
+                }
+            }, 1000);
+        }
+
+        // === MUSIC TOGGLE ===
+        let musicPlaying = false;
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.getElementById('musicBtn');
+            
+            if (musicPlaying) {
+                music.pause();
+                btn.textContent = '🎵 Play Music';
+                musicPlaying = false;
+            } else {
+                // Set start time to 46 seconds if at beginning
+                if (music.currentTime < 1) {
+                    music.currentTime = 46;
+                }
+                music.play().catch(err => {
+                    alert('Please interact with the page first to play music!');
+                });
+                btn.textContent = '🎵 Pause Music';
+                musicPlaying = true;
+            }
+        }
+        
+        // Initialize audio to start at 46 seconds
+        document.getElementById('bgMusic').addEventListener('loadedmetadata', function() {
+            this.currentTime = 46;
+        });
+
+        // === INITIALIZE ===
+        window.onload = function() {
+            createFloatingHearts();
+            updateCountdown();
+            setupNoButton();
+            startTypingEffect();
+            
+            // Position "No" button initially to the right of Yes button with spacing
+            const noBtn = document.getElementById('noBtn');
+            const container = noBtn.parentElement;
+            const yesBtn = document.querySelector('.yes-btn');
+            
+            noBtn.style.position = 'absolute';
+            
+            // Calculate position based on viewport width
+            if (window.innerWidth > 768) {
+                // Desktop: place to the right of Yes button
+                noBtn.style.left = '55%';
+                noBtn.style.top = '50%';
+            } else {
+                // Mobile: place below Yes button
+                noBtn.style.left = '50%';
+                noBtn.style.top = '65%';
+            }
+            noBtn.style.transform = 'translate(-50%, -50%)';
+        };
+
+        // === ATTEMPT AUTOPLAY (Will be blocked by most browsers) ===
+        document.addEventListener('click', function initAudio() {
+            const music = document.getElementById('bgMusic');
+            music.play().catch(() => {});
+            document.removeEventListener('click', initAudio);
+        }, { once: true });
+
+        // === TYPING EFFECT ===
+function startTypingEffect() {
+    const text = "Nidra… there’s something I’ve been meaning to tell you… 💌";
+    const typingElement = document.getElementById("typingText");
+    let index = 0;
+
+    function typeLetter() {
+        if (index < text.length) {
+            typingElement.textContent += text.charAt(index);
+            index++;
+            setTimeout(typeLetter, 60);
+        }
+    }
+
+    typeLetter();
+}
+
+    </script>
+</body>
+</html>
